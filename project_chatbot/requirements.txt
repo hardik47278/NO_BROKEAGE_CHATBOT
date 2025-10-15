@@ -1,20 +1,18 @@
 streamlit==1.28.0
-pandas==2.1.0
+pandas==2.0.3
 requests==2.32.0
 python-dotenv==1.0.0
 fastapi==0.111.1
 pydantic==2.6.0
 
 # LangChain
-langchain==0.1.0  # or latest compatible version
+langchain==0.1.18
+langchain-core==0.1.18
 
 # Groq LLM
-langchain-groq==0.0.6  # adjust if your version differs
+langchain-groq==0.0.6
 
 # HuggingFace embeddings
 sentence-transformers==2.2.2
 transformers==4.35.0
 torch>=2.1.0
-
-# Optional: for vectorstores
-langchain-core==0.0.175
