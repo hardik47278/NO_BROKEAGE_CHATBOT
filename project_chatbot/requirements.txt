@@ -18,3 +18,4 @@ torch
 # Optional: for vectorstores
 langchain-core
 python-dotenv
+langchain-community
