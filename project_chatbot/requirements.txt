@@ -1,18 +1,19 @@
-streamlit==1.28.0
-pandas==2.0.3
-requests==2.32.0
-python-dotenv==1.0.0
-fastapi==0.111.1
-pydantic==2.6.0
+streamlit
+pandas
+requests
+python-dotenv
+fastapi
+pydantic
 
 # LangChain
-langchain==0.1.18
-langchain-core==0.1.18
+langchain
 
 # Groq LLM
-langchain-groq==0.0.6
-
+langchain-groq
 # HuggingFace embeddings
-sentence-transformers==2.2.2
-transformers==4.35.0
-torch>=2.1.0
+sentence-transformers
+transformers
+torch
+
+# Optional: for vectorstores
+langchain-core
