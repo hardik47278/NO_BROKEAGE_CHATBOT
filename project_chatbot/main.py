@@ -6,7 +6,7 @@ from langchain.prompts import ChatPromptTemplate
 
 app = FastAPI()
 
-# Load CSVs
+# Loading csv using pandas
 address = pd.read_csv("data/ProjectAddress.csv")
 project = pd.read_csv("data/project.csv")
 address = pd.read_csv("data/ProjectAddress.csv")
@@ -30,7 +30,7 @@ def search_properties(data: Query):
         merged["price"].astype(str).str.contains("1.39", case=False, na=False)
     ].head(3)
 
-    # LLM summary
+    
     summary_prompt = ChatPromptTemplate.from_template(
         "Summarize in one helpful sentence the property details:\n{data}"
     )
