@@ -1,10 +1,12 @@
-# llm_utils.py
+
 import os
 from langchain.prompts import ChatPromptTemplate
 from langchain.chains import LLMChain
 from langchain_groq import ChatGroq
 
-GROQ_MODEL_NAME = "llama-3.1-8b-instant"
+#MODEL LOADING AND LANCHAIN CHAIN MECHANISM
+
+GROQ_MODEL_NAME = "llama-3.1-8b-instant"   
 
 def get_llm_response(user_msg: str) -> str:
     """
