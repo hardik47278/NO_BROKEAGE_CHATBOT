@@ -1,11 +1,11 @@
-# ui.py
+
 import streamlit as st
 import pandas as pd
 import requests
 import os
 from dotenv import load_dotenv
 
-# Modular imports
+
 from vectorsearch import initialize_vectorstores, semantic_search
 from llm_utils import get_llm_response
 
@@ -27,7 +27,7 @@ def main():
             {"role": "assistant", "content": "Hi — this chat is for general conversation. Use the main search box for property queries."}
         ]
 
-    # -------------------- Property Search --------------------
+    
     query = st.text_input("Enter property search query:", key="property_search_input")
 
     if st.button("Search") and query:
@@ -45,14 +45,14 @@ def main():
         summary = data.get("summary", "No summary available.")
         results_df = pd.DataFrame(results)
 
-        # Display parsed filters
+        
         st.markdown("**Parsed Filters:**")
         st.json({k: v if v is not None else "—" for k, v in filters.items()})
 
         if results_df.empty:
             st.warning("No exact matches found for your query.")
         else:
-            # Show top properties as cards
+            
             st.subheader("🏘️ Top Matching Properties")
             for _, row in results_df.iterrows():
                 cols = st.columns([3, 1])
@@ -81,7 +81,7 @@ def main():
         # Store search history
         st.session_state.search_history.append({"query": query, "count": len(results_df)})
 
-    # -------------------- Sidebar --------------------
+    
     with st.sidebar:
         st.subheader("Recent Searches")
         if st.session_state.search_history:
