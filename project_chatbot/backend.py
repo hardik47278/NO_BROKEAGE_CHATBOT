@@ -11,19 +11,19 @@ from pydantic import BaseModel
 DATA_PATH = os.path.join("data", "merged_properties.csv")
 NORMALIZED_PATH = os.path.join("data", "merged_properties_normalized.csv")
 
-# -------------------- FastAPI App --------------------
+
 app = FastAPI(title="Property Search API", version="1.0")
 
-# -------------------- Utilities --------------------
-def clean_text(text: str) -> str:
+
+def clean_text(text: str) -> str:   #PREPROCESSING CSV 
     if pd.isna(text):
         return ""
     s = str(text).strip().lower()
     s = re.sub(r'\s+', ' ', s)
-    s = re.sub(r'[^\w\s,.-]', '', s)  # keep commas/dots
+    s = re.sub(r'[^\w\s,.-]', '', s)  
     return s
 
-def normalize_df(df: pd.DataFrame) -> pd.DataFrame:
+def normalize_df(df: pd.DataFrame) -> pd.DataFrame:   #NORMALIZING THE DATAFRAME
     df = df.copy()
     for col in ["FullAddress", "ProjectName", "BHK", "PossessionStatus", "Amenities", "slug"]:
         if col in df.columns:
@@ -35,7 +35,7 @@ def normalize_df(df: pd.DataFrame) -> pd.DataFrame:
     df["PossessionStatus"] = df["PossessionStatus"].str.replace("_", " ").str.strip()
     return df
 
-def format_price(p):
+def format_price(p):    #formatting the price to have common units
     try:
         if pd.isna(p): return "-"
         p = float(p)
@@ -46,7 +46,7 @@ def format_price(p):
     except:
         return "-"
 
-def extract_top_amenities(amen_str, top_n=3):
+def extract_top_amenities(amen_str, top_n=3):    #extract ammentities
     if not amen_str or amen_str in ("nan", "[]", "none"):
         return []
     s = amen_str.strip()
@@ -59,8 +59,7 @@ def extract_top_amenities(amen_str, top_n=3):
         return parts[:top_n]
     return []
 
-# -------------------- Summarize fallback --------------------
-def summarize_fallback(display_df: pd.DataFrame) -> str:
+def summarize_fallback(display_df: pd.DataFrame) -> str:      #fallback mechanism
     if display_df.empty:
         return "No properties found for your query."
 
@@ -94,8 +93,8 @@ df = pd.read_csv(DATA_PATH)
 df = normalize_df(df)
 df.to_csv(NORMALIZED_PATH, index=False)
 
-# -------------------- Query Parsing --------------------
-def parse_filters(query: str) -> Dict[str, Optional[Any]]:
+
+def parse_filters(query: str) -> Dict[str, Optional[Any]]:  #QUERY PARSING FILTERS USING REGEX
     q = query.strip()
     city = re.search(r"\b(Pune|Mumbai|Chennai|Delhi|Hyderabad)\b", q, re.I)
     bhk = re.search(r"(\d+(?:\.\d+)?)\s*BHK", q, re.I)
@@ -118,8 +117,8 @@ def parse_filters(query: str) -> Dict[str, Optional[Any]]:
         "project_name": project_name.group(1).strip().lower() if project_name else None,
     }
 
-# -------------------- Property Search --------------------
-def search_properties(filters: Dict[str, Optional[Any]], top_n=6):
+
+def search_properties(filters: Dict[str, Optional[Any]], top_n=6):  #PROPERTY SEARCH
     results = df.copy()
     f_city = filters.get("city")
     f_bhk = (filters.get("bhk") or "").lower().replace(" ", "")
@@ -156,12 +155,12 @@ def search_properties(filters: Dict[str, Optional[Any]], top_n=6):
     summary = summarize_fallback(display_df)  # <-- summary included in backend
     return results, display_df, summary
 
-# -------------------- FastAPI Endpoints --------------------
+
 class QueryRequest(BaseModel):
     query: str
     top_n: Optional[int] = 6
 
-@app.post("/search")
+@app.post("/search")   #ENDPOINTS
 def search_properties_endpoint(req: QueryRequest):
     filters = parse_filters(req.query)
     _, display_df, summary = search_properties(filters, top_n=req.top_n)
@@ -172,6 +171,6 @@ def search_properties_endpoint(req: QueryRequest):
         "summary": summary  # <-- new field
     }
 
-@app.get("/")
+@app.get("/")   #ENDPOINTS
 def root():
     return {"message": "Property Search API is running!"}
