@@ -9,11 +9,11 @@ from dotenv import load_dotenv
 from vectorsearch import initialize_vectorstores, semantic_search
 from llm_utils import get_llm_response
 
-load_dotenv()  # read GROQ_API_KEY, etc.
+load_dotenv()  
 
 API_URL = os.getenv("BACKEND_URL", "http://127.0.0.1:8000")
 
-# -------------------------- Main UI --------------------------
+
 def main():
     st.set_page_config(page_title="Property Search AI", layout="wide")
     st.title("🏠 Smart Property Search Assistant")
