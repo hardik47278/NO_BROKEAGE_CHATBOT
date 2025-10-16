@@ -5,17 +5,17 @@ python-dotenv
 fastapi
 pydantic
 
-# LangChain
+
 langchain
 
-# Groq LLM
+
 langchain-groq
-# HuggingFace embeddings
+
 sentence-transformers
 transformers
 torch
 
-# Optional: for vectorstores
+
 langchain-core
 python-dotenv
 langchain-community
