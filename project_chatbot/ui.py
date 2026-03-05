@@ -70,7 +70,7 @@ def main():
             vectorstore = initialize_vectorstores(results_df)
             st.divider()
             st.subheader("🔍 Semantically Similar Matches")
-            sem_results = semantic_search(vectorstore, query, top_k=5)
+            sem_results = semantic_search(vectorstore, query, top_k=7)
             for i, r in enumerate(sem_results, 1):
                 st.markdown(f"**{i}.** {r}")
 
